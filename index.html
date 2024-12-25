@@ -5,6 +5,33 @@
     <title>Путешествие по горам</title>
     <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
     <script src="https://cdn.rawgit.com/n5ro/aframe-physics-system/v4.0.1/dist/aframe-physics-system.min.js"></script>
+    <script>
+      // Компонент для добавления взаимодействия с камнями
+      AFRAME.registerComponent("interactive-rock", {
+        init: function () {
+          const el = this.el; // Элемент камня
+
+          // Событие на взаимодействие (например, "click" от курсора или контроллера)
+          el.addEventListener("click", () => {
+            // Добавление анимации покачивания
+            el.setAttribute("animation", {
+              property: "rotation",
+              to: "0 0 15",
+              dur: 300,
+              easing: "easeInOutQuad",
+              loop: 2,
+              dir: "alternate",
+            });
+
+            // Воспроизведение звука
+            const sound = el.components.sound;
+            if (sound) {
+              sound.playSound();
+            }
+          });
+        },
+      });
+    </script>
   </head>
   <body>
     <a-scene physics="gravity: -9.8">
@@ -34,43 +61,47 @@
         material="opacity: 0.7; side: double;"
         dynamic-body></a-plane>
 
-      <!-- Камни вдоль берега -->
+      <!-- Камни с интерактивным поведением -->
       <a-dodecahedron 
-        position="0 0.5 -4.5"
+        position="0 0 -4.5"
         scale="1 0.5 1"
         radius="1" 
         color="#8B4513"
+        interactive-rock
+        sound="src: https://cdn.glitch.global/29fc3966-b459-4737-a8be-cefd3933ffe4/swiming_pool_water_splash_11427.mp3?v=1735114583979"
         static-body></a-dodecahedron>
       <a-dodecahedron 
-        position="-1 0.5 -2.7"
+        position="-1 0 -2.7"
         scale="1 0.5 1"
         radius="1" 
         color="#8B4513"
+        interactive-rock
+        sound="src: https://cdn.glitch.global/29fc3966-b459-4737-a8be-cefd3933ffe4/swiming_pool_water_splash_11427.mp3?v=1735114583979"
         static-body></a-dodecahedron>
       <a-dodecahedron 
-        position="-2 0.5 -1"
+        position="-2 0 -1"
         scale="1 0.5 1"
         radius="1" 
         color="#8B4513"
+        interactive-rock
+        sound="src: https://cdn.glitch.global/29fc3966-b459-4737-a8be-cefd3933ffe4/swiming_pool_water_splash_11427.mp3?v=1735114583979"
         static-body></a-dodecahedron>
-      <a-dodecahedron 
-        position="0 0.5 -6.5"
-        scale="1 0.5 1"
-        radius="1" 
-        color="#8B4513"
-        static-body></a-dodecahedron>
-      <a-dodecahedron 
-        position="1 0.5 -7.8"
-        scale="1 0.5 1"
-        radius="1" 
-        color="#8B4513"
-        static-body></a-dodecahedron>
-      <a-dodecahedron 
-        position="1 0.5 -9.4"
+
+      <!-- Орел в небе -->
+      <a-gltf-model 
+        src="https://cdn.glitch.global/29fc3966-b459-4737-a8be-cefd3933ffe4/eagle.glb?v=1735116500000" 
+        position="0 5 -10" 
         scale="0.5 0.5 0.5"
-        radius="1" 
-        color="#8B4513"
-        static-body></a-dodecahedron>
+        rotation="0 180 0">
+        <!-- Анимация полета -->
+        <a-animation 
+          attribute="position" 
+          to="10 7 -20" 
+          dur="10000" 
+          direction="alternate" 
+          repeat="indefinite">
+        </a-animation>
+      </a-gltf-model>
 
       <!-- Камера и контроллер -->
       <a-camera position="0 1.6 3" wasd-controls="acceleration: 20" look-controls>
