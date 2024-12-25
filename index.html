@@ -61,8 +61,8 @@
         // Анимация качания кристалла из стороны в сторону
         el.setAttribute('animation', {
           property: 'rotation',
-          to: `0 0 10`, // Поворот на 10 градусов по оси Z
-          dur: 500, // Длительность анимации
+          to: `0 0 5`, // Поворот на 10 градусов по оси Z
+          dur: 200, // Длительность анимации
           easing: 'easeInOutQuad',
           loop: true,
           dir: 'alternate' // Сделать анимацию в обе стороны
@@ -73,7 +73,7 @@
           el.setAttribute('animation', {
             property: 'rotation',
             to: '0 0 0', // Возвращаем кристалл в начальную позицию
-            dur: 500,
+            dur: 200,
             easing: 'easeInOutQuad',
             loop: false
           });
@@ -86,7 +86,12 @@
 
   </head>
   <body>
-    <a-scene physics="gravity: -9.8">
+    <a-scene physics="gravity: -9.8; debug: true">
+      <a-entity camera="userHeight: 1.6"
+         position="10 10 0"
+         wasd-controls="acceleration: 0" look-controls dynamic-body>
+      <a-cursor></a-cursor>
+      </a-camera>
       <!-- 360° фото на фоне -->
       <a-sky src="https://cdn.glitch.global/29fc3966-b459-4737-a8be-cefd3933ffe4/31407153198_8f2551e58d_k.jpg?v=1735056049252"></a-sky>
 
@@ -172,8 +177,8 @@
 
 
         <!-- Кристаллы -->
-        <a-octahedron position="-1.11741 0.5 -17.93119" scale="0.3 1.5 0.3" color="#00FFFF" interactive-crystal sound="src: https://cdn.glitch.global/29fc3966-b459-4737-a8be-cefd3933ffe4/ambient_melody.mp3?v=1735115588594"></a-octahedron>
-        <a-octahedron position="0.63053 0.5 -16.25768" scale="0.3 1.5 0.3" color="#00FFFF" interactive-crystal sound="src: https://cdn.glitch.global/29fc3966-b459-4737-a8be-cefd3933ffe4/ambient_melody.mp3?v=1735115588594"></a-octahedron>
+        <a-octahedron position="-1.11741 0.5 -17.93119" scale="0.3 1.5 0.3" color="#00FFFF" interactive-crystal sound="src: https://cdn.glitch.global/29fc3966-b459-4737-a8be-cefd3933ffe4/%D0%97%D0%B2%D1%83%D0%BA%20%D1%81%D0%B2%D0%B5%D1%87%D0%B5%D0%BD%D0%B8%D1%8F%20%D0%BA%D1%80%D0%B8%D1%81%D1%82%D0%B0%D0%BB%D0%BB%D0%B0.mp3?v=1735118596811" static-body></a-octahedron>
+        <a-octahedron position="0.63053 0.5 -16.25768" scale="0.3 1.5 0.3" color="#00FFFF" interactive-crystal sound="src: https://cdn.glitch.global/29fc3966-b459-4737-a8be-cefd3933ffe4/%D0%97%D0%B2%D1%83%D0%BA%20%D1%81%D0%B2%D0%B5%D1%87%D0%B5%D0%BD%D0%B8%D1%8F%20%D0%BA%D1%80%D0%B8%D1%81%D1%82%D0%B0%D0%BB%D0%BB%D0%B0.mp3?v=1735118596811"></a-octahedron>
 
         <!-- Звук капель воды -->
         <a-sound src="url(https://cdn.glitch.global/29fc3966-b459-4737-a8be-cefd3933ffe4/1561273385_151.mp3?v=1735117383879)" autoplay="true" loop="true" position="0 5 -19"></a-sound>
@@ -188,10 +193,6 @@
         animation="property: rotation; to: 0 360 0; dur: 10000; loop: true; easing: linear;">
       </a-gltf-model>
 
-      <!-- Камера и контроллер -->
-      <a-camera position="0 1.6 3" wasd-controls="acceleration: 20" look-controls>
-        <a-cursor></a-cursor>
-      </a-camera>
     </a-scene>
   </body>
 </html>
