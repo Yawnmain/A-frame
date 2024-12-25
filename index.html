@@ -83,7 +83,6 @@
   });
 </script>
 
-
   </head>
   <body>
     <a-scene physics="gravity: -9.8; debug: true">
@@ -195,10 +194,13 @@
         animation="property: rotation; to: 0 360 0; dur: 10000; loop: true; easing: linear;">
       </a-gltf-model>
       <a-gltf-model 
+        id="flag"
         src="https://cdn.glitch.global/29fc3966-b459-4737-a8be-cefd3933ffe4/flag_in_the_wind.glb?v=1735120333960" 
         position="0 0.1 -26" 
         scale="2 2 2"
-        
+        rotation="0 90 0"
+        clickable
+        sound="src: url(https://cdn.glitch.global/29fc3966-b459-4737-a8be-cefd3933ffe4/victory_sound.mp3?v=1735121123456)"
         >
       </a-gltf-model>
 
