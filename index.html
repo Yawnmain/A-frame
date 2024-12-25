@@ -4,9 +4,10 @@
     <meta charset="UTF-8">
     <title>Путешествие по горам</title>
     <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
+    <script src="https://cdn.rawgit.com/n5ro/aframe-physics-system/v4.0.1/dist/aframe-physics-system.min.js"></script>
   </head>
   <body>
-    <a-scene>
+    <a-scene physics="gravity: -9.8">
       <!-- 360° фото на фоне -->
       <a-sky src="https://cdn.glitch.global/29fc3966-b459-4737-a8be-cefd3933ffe4/31407153198_8f2551e58d_k.jpg?v=1735056049252"></a-sky>
 
@@ -16,12 +17,12 @@
 
       <!-- Земля с текстурой -->
       <a-plane
-        src = 'https://cdn.glitch.global/29fc3966-b459-4737-a8be-cefd3933ffe4/44954406812_7f9e5a3ed0_c.jpg?v=1735056245184'
+        src="https://cdn.glitch.global/29fc3966-b459-4737-a8be-cefd3933ffe4/44954406812_7f9e5a3ed0_c.jpg?v=1735056245184"
         position="0 0 0" 
         rotation="-90 0 0" 
         width="30" 
         height="50" 
-        ></a-plane>
+        static-body></a-plane>
 
       <!-- Ручей -->
       <a-plane
@@ -30,35 +31,49 @@
         width="30" 
         height="10" 
         color="#1E90FF" 
-        material="opacity: 0.7; side: double;"></a-plane>
+        material="opacity: 0.7; side: double;"
+        dynamic-body></a-plane>
 
       <!-- Камни вдоль берега -->
-      <a-sphere 
-        position="-3 0.2 -4.5" 
-        radius="0.3" 
-        color="#8B4513"></a-sphere>
-      <a-sphere 
-        position="-2 0.2 -5.5" 
-        radius="0.4" 
-        color="#8B4513"></a-sphere>
-      <a-sphere 
-        position="-1 0.2 -4.8" 
-        radius="0.35" 
-        color="#8B4513"></a-sphere>
-      <a-sphere 
-        position="1.5 0.2 -5.2" 
-        radius="0.3" 
-        color="#8B4513"></a-sphere>
-      <a-sphere 
-        position="3 0.2 -4.5" 
-        radius="0.4" 
-        color="#8B4513"></a-sphere>
-
-      <!-- Горный пейзаж -->
-      w 
+      <a-dodecahedron 
+        position="0 0.5 -4.5"
+        scale="1 0.5 1"
+        radius="1" 
+        color="#8B4513"
+        static-body></a-dodecahedron>
+      <a-dodecahedron 
+        position="-1 0.5 -2.7"
+        scale="1 0.5 1"
+        radius="1" 
+        color="#8B4513"
+        static-body></a-dodecahedron>
+      <a-dodecahedron 
+        position="-2 0.5 -1"
+        scale="1 0.5 1"
+        radius="1" 
+        color="#8B4513"
+        static-body></a-dodecahedron>
+      <a-dodecahedron 
+        position="0 0.5 -6.5"
+        scale="1 0.5 1"
+        radius="1" 
+        color="#8B4513"
+        static-body></a-dodecahedron>
+      <a-dodecahedron 
+        position="1 0.5 -7.8"
+        scale="1 0.5 1"
+        radius="1" 
+        color="#8B4513"
+        static-body></a-dodecahedron>
+      <a-dodecahedron 
+        position="1 0.5 -9.4"
+        scale="0.5 0.5 0.5"
+        radius="1" 
+        color="#8B4513"
+        static-body></a-dodecahedron>
 
       <!-- Камера и контроллер -->
-      <a-camera position="0 1.6 3">
+      <a-camera position="0 1.6 3" wasd-controls="acceleration: 20" look-controls>
         <a-cursor></a-cursor>
       </a-camera>
     </a-scene>
