@@ -87,10 +87,8 @@
   </head>
   <body>
     <a-scene physics="gravity: -9.8; debug: true">
-      <a-entity camera="userHeight: 1.6"
-         position="10 10 0"
-         wasd-controls="acceleration: 0" look-controls dynamic-body>
-      <a-cursor></a-cursor>
+      <a-camera position="0 1.6 3" wasd-controls="acceleration: 30" look-controls>
+        <a-cursor></a-cursor>
       </a-camera>
       <!-- 360° фото на фоне -->
       <a-sky src="https://cdn.glitch.global/29fc3966-b459-4737-a8be-cefd3933ffe4/31407153198_8f2551e58d_k.jpg?v=1735056049252"></a-sky>
@@ -105,8 +103,11 @@
         position="0 0 0" 
         rotation="-90 0 0" 
         width="30" 
-        height="50" 
+        height="60" 
         static-body></a-plane>
+      
+    
+
 
       <!-- Ручей -->
       <a-plane
@@ -116,7 +117,7 @@
         height="10" 
         color="#1E90FF" 
         material="opacity: 0.7; side: double;"
-        dynamic-body></a-plane>
+        static-body></a-plane>
 
       <!-- Камни с интерактивным поведением -->
       <a-dodecahedron 
