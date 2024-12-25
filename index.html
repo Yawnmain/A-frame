@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Путешествие по горам</title>
     <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
-    <script src="https://cdn.rawgit.com/n5ro/aframe-physics-system/v4.0.1/dist/aframe-physics-system.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/n5ro/aframe-physics-system@v$npm_package_version/dist/aframe-physics-system.min.js"></script>
 <script>
   // Компонент для добавления взаимодействия с камнями
   AFRAME.registerComponent('interactive-rock', {
@@ -87,7 +87,7 @@
   </head>
   <body>
     <a-scene physics="gravity: -9.8; debug: true">
-      <a-camera position="0 1.6 3" wasd-controls="acceleration: 30" look-controls>
+      <a-camera position="0 1.6 3" wasd-controls="acceleration: 30" look-controls dynamic-body>
         <a-cursor></a-cursor>
       </a-camera>
       <!-- 360° фото на фоне -->
@@ -120,14 +120,15 @@
         static-body></a-plane>
 
       <!-- Камни с интерактивным поведением -->
-      <a-dodecahedron 
+      <a-dodecahedron
+        static-body
         position="0 0 -4.5"
         scale="1 0.5 1"
         radius="1" 
         color="#8B4513"
         interactive-rock
         sound="src: https://cdn.glitch.global/29fc3966-b459-4737-a8be-cefd3933ffe4/swiming_pool_water_splash_11427.mp3?v=1735114583979"
-        static-body></a-dodecahedron>
+        ></a-dodecahedron>
       <a-dodecahedron 
         position="-1 0 -2.7"
         scale="1 0.5 1"
@@ -192,6 +193,13 @@
         scale="0.01 0.01 0.01"
         rotation="0 180 0"
         animation="property: rotation; to: 0 360 0; dur: 10000; loop: true; easing: linear;">
+      </a-gltf-model>
+      <a-gltf-model 
+        src="https://cdn.glitch.global/29fc3966-b459-4737-a8be-cefd3933ffe4/flag_in_the_wind.glb?v=1735120333960" 
+        position="0 0.1 -26" 
+        scale="2 2 2"
+        
+        >
       </a-gltf-model>
 
     </a-scene>
