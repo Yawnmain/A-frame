@@ -6,23 +6,16 @@
     <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
     <script src="https://cdn.rawgit.com/n5ro/aframe-physics-system/v4.0.1/dist/aframe-physics-system.min.js"></script>
     <script>
-      // Компонент для добавления взаимодействия с камнями
-      AFRAME.registerComponent('interactive-rock', {
+      // Компонент для добавления взаимодействия с кристаллами
+      AFRAME.registerComponent('interactive-crystal', {
         init: function () {
-          const el = this.el; // Элемент камня
+          const el = this.el;
 
           // Событие на взаимодействие (например, "click" от курсора или контроллера)
           el.addEventListener('click', () => {
-            // Добавление анимации покачивания
-            el.setAttribute('animation', {
-              property: 'rotation',
-              to: '0 0 15',
-              dur: 300,
-              easing: 'easeInOutQuad',
-              loop: 2,
-              dir: 'alternate',
-            });
-
+            // Изменяем цвет кристалла при взаимодействии
+            el.setAttribute('material', 'color', '#00FF00');
+            
             // Воспроизведение звука
             const sound = el.components.sound;
             if (sound) {
@@ -102,6 +95,24 @@
         interactive-rock
         sound="src: https://cdn.glitch.global/29fc3966-b459-4737-a8be-cefd3933ffe4/swiming_pool_water_splash_11427.mp3?v=1735114583979"
         static-body></a-dodecahedron>
+
+      <!-- Пещера -->
+      <a-entity position="0 0 0">
+        <!-- Стены пещеры -->
+        <a-cone position="-3 1 -15" radius-bottom="3" radius-top="0.1" height="10" color="#808080" static-body></a-cone>
+        <a-cone position="2 1 -15" radius-bottom="3" radius-top="0.1" height="10" color="#808080" static-body></a-cone>
+        <a-dodecahedron position="1 1 -17" scale="3 3 3" radius="1" color="#808080" ></a-dodecahedron>
+        <!-- Сталактиты -->
+        <a-cone position="-3 5 -12" radius-bottom="0.2" radius-top="0" height="2" color="#808080" static-body></a-cone>
+        <a-cone position="2 4.5 -12" radius-bottom="0.2" radius-top="0" height="2" color="#808080" static-body></a-cone>
+
+        <!-- Кристаллы -->
+        <a-box position="-2 0.5 -13" scale="0.3 1.5 0.3" color="#00FFFF" interactive-crystal sound="src: https://cdn.glitch.global/29fc3966-b459-4737-a8be-cefd3933ffe4/ambient_melody.mp3?v=1735115588594" static-body></a-box>
+        <a-box position="1 0.5 -13" scale="0.3 1.5 0.3" color="#00FFFF" interactive-crystal sound="src: https://cdn.glitch.global/29fc3966-b459-4737-a8be-cefd3933ffe4/ambient_melody.mp3?v=1735115588594" static-body></a-box>
+
+        <!-- Звук капель воды -->
+        <a-sound src="url(https://cdn.glitch.global/29fc3966-b459-4737-a8be-cefd3933ffe4/water_drip.mp3?v=1735115595301)" autoplay="true" loop="true" position="0 5 -12"></a-sound>
+      </a-entity>
 
       <!-- Орел в небе с анимацией вращения -->
       <a-gltf-model 
