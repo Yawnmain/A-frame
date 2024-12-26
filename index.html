@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8">
     <title>Путешествие по горам</title>
-    <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
+    <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-extras@7.5.2/dist/aframe-extras.min.js"></script>
 <script>
   // Компонент для добавления взаимодействия с камнями
@@ -88,7 +88,7 @@
     <a-scene physics="gravity: -9.8; debug: true">
       <a-entity movement-controls position="0 0 5">
         <a-entity 
-                  camera="userHeight: 1."
+                  camera="userHeight: 1.6"
                   kinematic-body
                   position="0 1.6 0"
                   look-controls="pointerLockEnabled: true"></a-entity>
@@ -101,13 +101,13 @@
       <a-light type="ambient" intensity="0.5"></a-light>
 
       <!-- Земля с текстурой -->
-      <a-grid
+      <a-plane
         src="https://cdn.glitch.global/29fc3966-b459-4737-a8be-cefd3933ffe4/44954406812_7f9e5a3ed0_c.jpg?v=1735056245184"
         position="0 0 0" 
         rotation="-90 0 0" 
         width="30" 
         height="60" 
-        static-body></a-grid>
+        static-body></a-plane>
       
     
 
