@@ -4,98 +4,23 @@
     <meta charset="UTF-8">
     <title>Путешествие по горам</title>
     <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-extras@7.5.2/dist/aframe-extras.min.js"></script>
-<script>
-  // Компонент для добавления взаимодействия с камнями
-  AFRAME.registerComponent('interactive-rock', {
-    init: function () {
-      const el = this.el;
-
-      // Событие на взаимодействие (например, "click" от курсора или контроллера)
-      el.addEventListener('click', () => {
-        
-        // Воспроизведение звука
-        const sound = el.components.sound;
-        if (sound) {
-          sound.playSound();
-        }
-
-        // Анимация "утопления" камня
-        el.setAttribute('animation', {
-          property: 'position',
-          to: `${el.object3D.position.x} ${el.object3D.position.y - 0.2} ${el.object3D.position.z}`,
-          dur: 300,
-          easing: 'easeInOutQuad',
-          loop: false,
-        });
-
-        // Восстановление положения после анимации
-        setTimeout(() => {
-          el.setAttribute('animation', {
-            property: 'position',
-            to: `${el.object3D.position.x} ${el.object3D.position.y + 0.2} ${el.object3D.position.z}`,
-            dur: 300,
-            easing: 'easeInOutQuad',
-            loop: false,
-          });
-        }, 300);
-      });
-    },
-  });
-</script>
-    <script>
-  // Компонент для добавления взаимодействия с кристаллами
-  AFRAME.registerComponent('interactive-crystal', {
-    init: function () {
-      const el = this.el;
-
-      // Событие на взаимодействие (например, "click" от курсора или контроллера)
-      el.addEventListener('click', () => {
-        
-        // Воспроизведение звука
-        const sound = el.components.sound;
-        if (sound) {
-          sound.playSound();
-        }
-
-        // Анимация качания кристалла из стороны в сторону
-        el.setAttribute('animation', {
-          property: 'rotation',
-          to: `0 0 5`, // Поворот на 10 градусов по оси Z
-          dur: 200, // Длительность анимации
-          easing: 'easeInOutQuad',
-          loop: true,
-          dir: 'alternate' // Сделать анимацию в обе стороны
-        });
-
-        // Остановка анимации через 1 секунду, чтобы кристалл вернулся в исходное положение
-        setTimeout(() => {
-          el.setAttribute('animation', {
-            property: 'rotation',
-            to: '0 0 0', // Возвращаем кристалл в начальную позицию
-            dur: 200,
-            easing: 'easeInOutQuad',
-            loop: false
-          });
-        }, 1000); // Останавливаем через 1 секунду
-      });
-    },
-  });
-</script>
-
+    
+<script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-extras@7.5.2/dist/aframe-extras.min.js"></script>
   </head>
   <body>
     <a-scene physics="gravity: -9.8; debug: true">
      <a-entity position="0 1.6 0" camera wasd-controls="acceleration: 30;" look-controls="pointerLockEnabled: false">
-        <a-cursor position="0 0 -.05" scale=".04 .04 1"></a-cursor>
-        <a-box scale="0.5 0.5 0.5"></a-box>
-      </a-entity>
+      <a-cursor position="0 0 -.05" scale=".04 .04 1"></a-cursor>
+      <!-- Добавляем физическое тело игроку -->
+      <a-sphere radius="1" position="0 -1.6 0" dynamic-body visible="false"></a-sphere>
+</a-entity>
       <!-- 360° фото на фоне -->
       <a-sky src="https://cdn.glitch.global/29fc3966-b459-4737-a8be-cefd3933ffe4/31407153198_8f2551e58d_k.jpg?v=1735056049252"></a-sky>
 
       <!-- Солнце и освещение -->
-      <a-light type="directional" position="0 5 -5" intensity="1"></a-light>
+      <a-light type="directional" position="0 5 -5" intensity="1" castshadow="true"></a-light>
       <a-light type="ambient" intensity="0.5"></a-light>
+
 
       <!-- Земля с текстурой -->
       <a-plane
@@ -110,7 +35,6 @@
 
       <!-- Ручей -->
       <a-plane
-        static-body="shape: auto"
         position="0 0.01 -5" 
         rotation="-90 0 0" 
         width="30" 
@@ -119,9 +43,10 @@
         material="opacity: 0.7; side: double;"
         static-body></a-plane>
 
+
       <!-- Камни с интерактивным поведением -->
       <a-dodecahedron
-        static-body="shape: auto"
+        static-body
         position="0 0 -4.5"
         scale="1 0.5 1"
         radius="1" 
@@ -130,7 +55,7 @@
         sound="src: https://cdn.glitch.global/29fc3966-b459-4737-a8be-cefd3933ffe4/swiming_pool_water_splash_11427.mp3?v=1735114583979"
         ></a-dodecahedron>
       <a-dodecahedron
-        static-body="shape: box"
+        static-body
         position="-1 0 -2.7"
         scale="1 0.5 1"
         radius="1" 
