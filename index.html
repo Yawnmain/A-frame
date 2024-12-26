@@ -3,9 +3,10 @@
   <head>
     <meta charset="UTF-8">
     <title>Путешествие по горам</title>
-    <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-extras@7.5.2/dist/aframe-extras.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/gh/VinsonLariwan/aframe-particle-system-component@1.0.0/dist/aframe-particle-system-component.min.js"></script>
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+    <script src="aframe-extras.js"></script>
+    <script src="aframe-particle-system-component.js"></script>
+    <script src="https://unpkg.com/aframe-environment-component@1.2.0/dist/aframe-environment-component.min.js"></script>
 <script>
   AFRAME.registerComponent('interactive-rock', {
   init: function () {
@@ -48,13 +49,62 @@
 
 </script>
     
-    <script>
-  AFRAME.registerComponent('firework-effect', {
+
+<script>
+  // Регистрация компонента для интерактивного кристалла
+  AFRAME.registerComponent('interactive-crystal', {
     init: function () {
       const el = this.el;
+      const particleSystem = document.getElementById('particles1');  // Находим частицы
+      let particlesEnabled = false;  // Флаг состояния частиц
 
-      // Находим эффект фейерверка
-      const firework = document.querySelector('#firework');
+      // Создание и настройка звука
+      const sound = el.components.sound;
+
+      // Обработчик клика
+      el.addEventListener('click', () => {
+        // Воспроизведение звука
+        if (sound) {
+          sound.playSound();
+        }
+
+        // Переключение состояния частиц
+        particlesEnabled = !particlesEnabled;
+        particleSystem.setAttribute('particle-system', 'enabled', particlesEnabled);
+
+        // Позиция кристалла для анимации
+        const pos = el.object3D.position;
+
+        // Анимация качания кристалла из стороны в сторону
+        el.setAttribute('animation', {
+          property: 'rotation',
+          to: `0 0 10`,
+          dur: 200,
+          easing: 'easeInOutQuad',
+          loop: true,
+          dir: 'alternate',
+        });
+
+        // Остановка анимации через 1 секунду
+        setTimeout(() => {
+          el.setAttribute('animation', {
+            property: 'rotation',
+            to: '0 0 0',
+            dur: 200,
+            easing: 'easeInOutQuad',
+            loop: false,
+          });
+        }, 1000);
+      });
+    },
+  });
+</script>
+
+ <script>
+  // Регистрация компонента для обработки клика на флаг
+  AFRAME.registerComponent('finish-game', {
+    init: function () {
+      const el = this.el;
 
       // Событие клика на флаг
       el.addEventListener('click', () => {
@@ -64,62 +114,43 @@
           sound.playSound();
         }
 
-        // Активируем фейерверк
-        firework.setAttribute('particle-system', {
-          enabled: true, // Включаем систему частиц
+        // Создание модального окна
+        const modal = document.createElement('div');
+        modal.style.position = 'fixed';
+        modal.style.top = '50%';
+        modal.style.left = '50%';
+        modal.style.transform = 'translate(-50%, -50%)';
+        modal.style.backgroundColor = 'rgba(0, 0, 0, 0.8)';
+        modal.style.color = 'white';
+        modal.style.padding = '20px';
+        modal.style.borderRadius = '10px';
+        modal.style.fontSize = '24px';
+        modal.style.textAlign = 'center';
+        modal.style.zIndex = '1000';
+        modal.textContent = 'ВЫ ПРОШЛИ ИГРУ!';
+
+        // Добавляем кнопку закрытия
+        const closeButton = document.createElement('button');
+        closeButton.textContent = 'Закрыть';
+        closeButton.style.marginTop = '10px';
+        closeButton.style.padding = '10px 20px';
+        closeButton.style.fontSize = '18px';
+        closeButton.style.cursor = 'pointer';
+        closeButton.style.backgroundColor = '#ff0000';
+        closeButton.style.color = '#fff';
+        closeButton.style.border = 'none';
+        closeButton.style.borderRadius = '5px';
+
+        closeButton.addEventListener('click', () => {
+          modal.remove(); // Удаляем модальное окно
         });
 
-        // Останавливаем фейерверк через 3 секунды
-        setTimeout(() => {
-          firework.setAttribute('particle-system', {
-            enabled: false, // Отключаем систему частиц
-          });
-        }, 3000);
+        modal.appendChild(closeButton);
+        document.body.appendChild(modal);
       });
     },
   });
 </script>
-
-    <script>
-  // Компонент для добавления взаимодействия с кристаллами
-  AFRAME.registerComponent('interactive-crystal', {
-    init: function () {
-      const el = this.el;
-
-      // Событие на взаимодействие (например, "click" от курсора или контроллера)
-      el.addEventListener('click', () => {
-        
-        // Воспроизведение звука
-        const sound = el.components.sound;
-        if (sound) {
-          sound.playSound();
-        }
-
-        // Анимация качания кристалла из стороны в сторону
-        el.setAttribute('animation', {
-          property: 'rotation',
-          to: `0 0 5`, // Поворот на 10 градусов по оси Z
-          dur: 200, // Длительность анимации
-          easing: 'easeInOutQuad',
-          loop: true,
-          dir: 'alternate' // Сделать анимацию в обе стороны
-        });
-
-        // Остановка анимации через 1 секунду, чтобы кристалл вернулся в исходное положение
-        setTimeout(() => {
-          el.setAttribute('animation', {
-            property: 'rotation',
-            to: '0 0 0', // Возвращаем кристалл в начальную позицию
-            dur: 200,
-            easing: 'easeInOutQuad',
-            loop: false
-          });
-        }, 1000); // Останавливаем через 1 секунду
-      });
-    },
-  });
-</script>  
-
 
 
   </head>
@@ -130,30 +161,23 @@
       <!-- Добавляем физическое тело игроку -->
       <a-sphere radius="1" position="0 -1.6 0" dynamic-body visible="false"></a-sphere>
 </a-entity>
-      <!-- 360° фото на фоне -->
-      <a-sky src="https://cdn.glitch.global/29fc3966-b459-4737-a8be-cefd3933ffe4/31407153198_8f2551e58d_k.jpg?v=1735056049252"></a-sky>
+      
+
+      <a-entity environment="preset: arches; fog: 0.95; seed:777; ground:hills"></a-entity>
+      
 
       <!-- Солнце и освещение -->
       <a-light type="directional" position="0 5 -5" intensity="1" castshadow="true"></a-light>
       <a-light type="ambient" intensity="0.5"></a-light>
-
-
-      <!-- Земля с текстурой -->
-      <a-plane
-        src="https://cdn.glitch.global/29fc3966-b459-4737-a8be-cefd3933ffe4/44954406812_7f9e5a3ed0_c.jpg?v=1735056245184"
-        position="0 0 0" 
-        rotation="-90 0 0" 
-        width="30" 
-        height="60" 
-        static-body></a-plane>
+      
       
  
 
       <!-- Ручей -->
       <a-plane
-        position="0 0.01 -5" 
+        position="0 0.05 -5" 
         rotation="-90 0 0" 
-        width="30" 
+        width="250" 
         height="10" 
         color="#1E90FF" 
         material="opacity: 0.7; side: double;"
@@ -222,6 +246,8 @@
 
 
         <!-- Кристаллы -->
+        <a-entity id="particles1" position="-1.11741 0.1 -17.93119" particle-system="color: red; enabled:false; particleCount:100; maxParticleCount:500; size:0.1"></a-entity>
+        <a-entity id="particles2" position="0.63053 0.1 -16.25768" particle-system="color: red; enabled:false; particleCount:100; maxParticleCount:500;"></a-entity>
         <a-octahedron position="-1.11741 0.5 -17.93119" scale="0.3 1.5 0.3" color="#00FFFF" interactive-crystal sound="src: https://cdn.glitch.global/29fc3966-b459-4737-a8be-cefd3933ffe4/%D0%97%D0%B2%D1%83%D0%BA%20%D1%81%D0%B2%D0%B5%D1%87%D0%B5%D0%BD%D0%B8%D1%8F%20%D0%BA%D1%80%D0%B8%D1%81%D1%82%D0%B0%D0%BB%D0%BB%D0%B0.mp3?v=1735118596811" static-body></a-octahedron>
         <a-octahedron position="0.63053 0.5 -16.25768" scale="0.3 1.5 0.3" color="#00FFFF" interactive-crystal sound="src: https://cdn.glitch.global/29fc3966-b459-4737-a8be-cefd3933ffe4/%D0%97%D0%B2%D1%83%D0%BA%20%D1%81%D0%B2%D0%B5%D1%87%D0%B5%D0%BD%D0%B8%D1%8F%20%D0%BA%D1%80%D0%B8%D1%81%D1%82%D0%B0%D0%BB%D0%BB%D0%B0.mp3?v=1735118596811"></a-octahedron>
 
@@ -237,13 +263,6 @@
         rotation="0 180 0"
         animation="property: rotation; to: 0 360 0; dur: 10000; loop: true; easing: linear;">
       </a-gltf-model>
-      
-      <a-entity 
-  id="firework" 
-  position="0 0 -26"
-  particle-system="preset: fireworks; color: #ff0000, #ffff00, #00ff00; enabled: false;">
-</a-entity>
-      
       <a-gltf-model 
   id="flag"
   src="https://cdn.glitch.global/29fc3966-b459-4737-a8be-cefd3933ffe4/flag_in_the_wind.glb?v=1735120333960" 
@@ -251,7 +270,7 @@
   scale="2 2 2"
   rotation="0 90 0"
   sound="src: url(https://cdn.glitch.global/29fc3966-b459-4737-a8be-cefd3933ffe4/victory_sound.mp3?v=1735121123456)"
-  firework-effect>
+  finish-game>
 </a-gltf-model>
       
 
