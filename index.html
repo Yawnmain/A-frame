@@ -86,12 +86,9 @@
   </head>
   <body>
     <a-scene physics="gravity: -9.8; debug: true">
-      <a-entity movement-controls position="0 0 5">
-        <a-entity 
-                  camera="userHeight: 1.6"
-                  kinematic-body
-                  position="0 1.6 0"
-                  look-controls="pointerLockEnabled: true"></a-entity>
+     <a-entity position="0 1.6 0" camera wasd-controls="acceleration: 30;" look-controls="pointerLockEnabled: false">
+        <a-cursor position="0 0 -.05" scale=".04 .04 1"></a-cursor>
+        <a-box scale="0.5 0.5 0.5"></a-box>
       </a-entity>
       <!-- 360° фото на фоне -->
       <a-sky src="https://cdn.glitch.global/29fc3966-b459-4737-a8be-cefd3933ffe4/31407153198_8f2551e58d_k.jpg?v=1735056049252"></a-sky>
@@ -109,8 +106,7 @@
         height="60" 
         static-body></a-plane>
       
-    
-
+ 
 
       <!-- Ручей -->
       <a-plane
